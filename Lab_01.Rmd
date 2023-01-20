@@ -1,0 +1,184 @@
+---
+title: "Lab 1: Introduction to R, installing R, and the R environment"
+output:
+  bookdown::html_document2: 
+    toc: true
+    toc_float: true
+  bookdown::pdf_document2: 
+    extra_dependencies: ["float"]
+urlcolor: blue 
+---
+
+```{r echo = F, warning=F, message=F}
+library(tidyverse)
+library(knitr)
+library(formatR)
+
+knitr::opts_chunk$set(fig.pos = "!h", out.extra = "", out.width="30%", fig.align='center')
+```
+
+# Introduction to R
+
+## What is R?
+
+R is an open-source software environment for statistical computing and graphics that is popular among scientists and data analysts. Open source means that the software is free and anyone can use and alter it---this facilitates collaboration which means that the functionality of R is constantly increasing. There is almost nothing you can't do in R! Not only can you do statistical analysis, you can write books and blogs, create interactive web applications and animations, create high-quality graphics, and even use R as a GIS! Because R does not have a **graphical user interface** (GUI) where you can point and click like Excel or SPSS, most people run R through an **Integrated Development Environment** (IDE) called **RStudio**. RStudio provides a consistent way to organize files, access information quickly, and display data. The purpose of this lab is to supplement the lecture by providing you with the technical expertise to actually do statistics. We will use R and RStudio exclusively although there are certainly many other options available. 
+
+## Download R
+
+You can download R [here](https://cran.r-project.org/). Choose either **Download R for (Mac) OS X** or **Download R for Windows** depending on your machine. Mac users will select the R-4.0.2.pkg. Once the package is downloaded, open it to complete installation (Fig \@ref(fig:mac)). Windows users will click **"install R for the first time"** (Fig. \@ref(fig:win-install)) and then install R 4.0.2 as well (Fig. \@ref(fig:win-pkg)). 
+ 
+Follow the instructions as you would with any other program. For both installations, accept all the default settings.
+
+
+```{r mac, fig.cap = "Mac pkg", echo = F}
+knitr::include_graphics("images/Mac_pkg.png")
+```
+
+```{r win-install, echo = F, fig.cap="First time installation for Windows", out.width="30%", fig.align='center'}
+knitr::include_graphics("images/Windows_install.png")
+```
+
+```{r win-pkg, echo = F, fig.cap="Windows pkg", out.width="30%", fig.align='center'}
+knitr::include_graphics("images/Windows_pkg.png")
+```
+
+
+## Download RStudio
+
+RStudio is the program that we will use to run R. It makes R a lot easier to use and is a convenient way to be able to see your files, your data, your code, and your plots all together. RStudio can be downloaded [here](https://rstudio.com/products/rstudio/download/). Choose the RStudio Desktop version (Fig. \@ref(fig:studio)) that is appropriate for your operating system. Again, follow the installation procedure and accept the default settings.
+
+```{r studio, echo = F, fig.margin = T, fig.cap="RStudio Desktop download", out.width="50%", fig.align='center', out.width="30%", fig.align='center'}
+knitr::include_graphics("images/RStudio.png")
+```
+
+## Try R
+
+To familiarize yourself with basic R programming and data structures, you will complete the online interactive tutorial [Introduction to R](https://learn.datacamp.com/courses/free-introduction-to-r) offered by DataCamp. In order to access the tutorial for free, you need to sign up for a DataCamp account. I was able to get the entire class free six-month subscriptions. Follow this [link](https://datacamp.com/groups/shared_links/0a911177229016b74a20924eac53b81365156752bf12b37fc35a95285c44822e) to sign up, then navigate to the tutorial above. Make sure to sign up using your ku email (ID@ku.edu).
+
+After you complete all six sections, click on **My Profile** and scroll down until you see **Competed Courses**. Introduction to R should be listed there. Take a screenshot (here are instructions on how to do this on a [Mac](https://support.apple.com/en-us/HT201361) and on [Windows](https://support.microsoft.com/en-us/help/13776/windows-10-use-snipping-tool-to-capture-screenshots)) and save it as proof of completion. You will upload this to Blackboard along with the R script you write for the exercises at the end of this lab.
+
+## Play with R
+
+Now that you have some sense of what R is and the basics of the way it structures data, let's do some coding in RStudio. 
+
+### Configure RStudio
+
+Open RStudio. There are four windows or panes that commonly appear in RStudio (Fig. \@ref(fig:panes)). You will write your script in the upper left hand panel. Below it is the Console. This is where your code runs and where you will see output as well as error messages. The Environment pane on the top right hand side is where any data or objects that you load or create will appear. Below that there is the Files tab where you can see all of your saved files, the Plots tab where plots that you make will appear, the Packages tab where you can install and load R packages, and the Help tab.
+
+```{r panes, echo = F, fig.cap = "RStudio panes"}
+knitr::include_graphics("images/rstudio_panels.png")
+```
+
+\noindent There are a couple of software settings that we want to change in RStudio. On Macs, go to **RStudio** and open **Preferences**. On Windows, go to **Tools** then **Options**. Under the **General** tab, change your settings to look like Fig. \@ref(fig:settings). 
+
+```{r settings, echo = F, fig.cap = "RStudio settings", out.width="30%", fig.align='center'}
+knitr::include_graphics("images/Workspace.png")
+```
+
+\noindent This will make working in RStudio more manageable. Under the **Packages** tab, change the primary CRAN repository to the University of Kansas (Fig. \@ref(fig:cran)). 
+
+```{r cran, echo = F, fig.cap = "CRAN repository", out.width="30%", fig.align='center'}
+knitr::include_graphics("images/cran.png")
+```
+
+\noindent If you happen to be living somewhere besides Lawrence, you would want to choose the CRAN repository closest to you. This is the first place that R will look to when you want to download a package. Picking the one that is closest to you improves performance.
+
+### Create a project
+
+A **project** in RStudio is just a folder with a special file in it. This file---**.RPrj**---ensures that this folder will be your **working directory** whenever you open the R project. The working directory is the current default location where your R will read and write files from. Directories are also known as folders. We will create an R project that you will use for all the coding that you will do in this lab. Go to: 
+
+>**File > New Project > New Directory > New Project**.
+
+\noindent Type GEOG316 for the **Directory name**. All your lab materials will be stored in this folder. Where the window says **Create project as a subdirectory of**, browse to where you would like this folder to be located. For me, I have a folder (directory) for each course that I have taken that reside within a main folder called KU. Then click **Create Project**.
+
+### Create a script
+
+You will be creating **scripts** for each lab assignment and submitting to blackboard. In R, a script is just a simple text file that records a series of codes. It will consist of both **commands**---like addition or multiplication---and **comments**---notes that you make in the script that explain what it is doing. It is a good habit to annotate your script with comments. It is very frustrating to return to a script a month later and have no idea what you were doing or why! They are also very helpful if you share your script with someone else. In R, comments are indicated by a \#---called a hashtag or pound sign---at the beginning of the line. This tells R to skip this line when it is executing the code. There must be a \# for each line of comments.
+
+When you run a script in R it **executes** all of your commands and skips all of your comments. So a script is really just a set of instructions and when you are ready, you tell R to follow them, and R gives you the results. Go to:
+
+>**File > New File > R Script**.
+
+\noindent A blank and untitled script will appear. It is a good practice to go ahead and save the script even though it is blank. This way we can give it a name and specify the save location. Go to:
+
+>**File > Save**
+
+\noindent or you can click the floppy disc icon on your script tab. Name your script with your last name, the lab number, and the course separated by underscores. For instance mine will be named Wesley_Lab1_GEOG316. Because we are working in an R project, we can accept the default save location.
+
+> **Note:**
+Script examples will appear in grey boxes. The brownish colored text are comments, as is indicated by the \# at the beginning of the lines. The expressions are in blue with no \#, and the output is in black with two \#'s. When you run a script in R it will not look exactly like this. The #'s ensure that if you copy and paste a section of code from here into R, it will run without needing to delete any parts.
+
+
+For your scripts I want you to write the full question as a comment, followed by the code you write to answer the question. If you need to write text as part of your answer, this will need to be commented out as well. For example:
+```{r, tidy=TRUE}
+# 1. Add 1 and 5
+1 + 5
+
+# 2. Multiply 2 and 4
+2 * 4
+
+# 3. What is an operator? Give an example.
+
+# An operator is a symbol that tells R to perform a 
+# specific task. In this case, / indicates division.
+10 / 2
+```
+
+\noindent If you are wondering how much information to include, include more. The purpose of these exercises is to increase and assess your level of understanding. Often a single word, or a single **expression**, does not indicate to me that you understand the concept. Knowing how to do something, and knowing why you are doing it and how it works are not the same thing.
+
+***
+**expression**---an object that represents something that R can do. For instance, 2 * 4 is an expression. 
+
+\noindent The * symbol is the operator, and 8 would be the **result** of the expression.
+
+***
+
+
+### Let's code!
+
+You will write your code in the script but it won't run automatically. You can type code directly into the console, but the output is temporary. By writing our code in a script it is permanent. As long as we have the file, we can run the code. But you still need to make sure it works! On the right side of your script is a button that says **Run**. You can position your cursor on any line of code in your script and click the Run button and your code will be sent to the console and run. Neat! If you want to run multiple lines, you can highlight a section of code, click Run, and the entire highlighted section will be sent to the console. 
+
+# Exercises
+The skills and definitions necessary for these exercises are taught in the free, online [Introduction to R](https://learn.datacamp.com/courses/free-introduction-to-r).
+
+1. Multiply 4 by 6 and then add 5.
+
+2. How do you assign variables in R? Assign two variables, each one on different lines. 
+
+3. What kind of expression will return a logical value? Provide an example.
+
+4. What is a vector? What kind of values can be used to create a vector?
+
+5. Create a vector called “x” that holds the strings “rock”, “chalk”, and “jayhawk”.
+
+6. Call the third value of the x vector.
+
+7. Change the third value of vector x to "KU". 
+
+8. What is a factor?
+
+9. Recreate the planets dataframe from the online tutorial. Don't forget to assign it to the variable planets_df.
+
+```{r}
+name <- c("Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune")
+type <- c("Terrestrial planet", "Terrestrial planet", "Terrestrial planet", 
+          "Terrestrial planet", "Gas giant", "Gas giant", "Gas giant", "Gas giant")
+diameter <- c(0.382, 0.949, 1, 0.532, 11.209, 9.449, 4.007, 3.883)
+rotation <- c(58.64, -243.02, 1, 1.03, 0.41, 0.43, -0.72, 0.67)
+rings <- c(FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, TRUE, TRUE)
+```
+
+10. Select the data for Earth from your dataframe.
+
+11. What is the difference between between a list and a vector?
+
+12. Create a list with five items and three different data types (numbers, strings, logical). Assign it to the variable my_list. 
+
+13. Select the fourth element from your list.
+
+
+
+
+
+
+
